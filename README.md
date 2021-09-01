@@ -1,6 +1,6 @@
-# dokumentation_lh
+# Agogische Dokumentation App (Frontend)
 
-A new Flutter project.
+Flutter Projekt für die Lebenshilfe Salzburg.
 
 ## Getting Started
 
