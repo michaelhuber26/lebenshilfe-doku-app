@@ -10,6 +10,8 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen> {
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments;
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -20,6 +22,7 @@ class _ResultScreenState extends State<ResultScreen> {
               'Result Screen',
               style: TextStyle(fontSize: 40),
             ),
+            Text(args.toString()),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/');

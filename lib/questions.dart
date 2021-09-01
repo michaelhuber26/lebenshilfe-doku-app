@@ -2,8 +2,9 @@ class Question {
   int? answer;
   String category;
   String subcategory;
+  List result = List.filled(29, 0, growable: false);
 
-  Question({required this.category, required this.subcategory, this.answer});
+  Question({required this.category, required this.subcategory});
 
   @override
   String toString() {

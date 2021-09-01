@@ -10,31 +10,20 @@ class _QuestionScreenState extends State<QuestionScreen> {
   String _title = '';
   String _subtitle = '';
   int counter = 0;
-  List result = List.filled(29, 0, growable: false);
+  Question q = Question(category: '', subcategory: '');
+  // List result = List.filled(29, 0, growable: false);
 
   bool toggle = false;
   List<bool> isSelected = [false, false, false, false, false];
 
   @override
-  void initState() {
-    super.initState();
-    Question q = Question(category: '', subcategory: '');
-
-    if (counter <= 28) {
-      _title = q.getQuestionbyID(counter).category;
-      _subtitle = q.getQuestionbyID(counter).subcategory;
-    }
-
-    print("INITSTATE");
-  }
-
-  @override
   Widget build(BuildContext context) {
-    Question q = Question(category: '', subcategory: '');
+    print('BUILD Function called');
     if (counter <= 28) {
       _title = q.getQuestionbyID(counter).category;
       _subtitle = q.getQuestionbyID(counter).subcategory;
     }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Agogische Dokumentation'),
@@ -46,7 +35,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
           Padding(
             padding: EdgeInsets.fromLTRB(10, 50, 10, 10),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ImageIcon(
@@ -59,7 +48,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   textDirection: TextDirection.rtl,
                   children: [
                     Container(
-                      width: 700,
+                      width: MediaQuery.of(context).size.width / 2,
                       padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
                       child: Text(
                         _title,
@@ -71,7 +60,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       ),
                     ),
                     Container(
-                      width: 700,
+                      width: MediaQuery.of(context).size.width / 2,
                       padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
                       child: Text(
                         _subtitle,
@@ -239,13 +228,17 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     heroTag: 'btnforward',
                     onPressed: () {
                       if (counter >= 28) {
-                        Navigator.pushNamed(context, '/result');
+                        Navigator.pushNamed(
+                          context,
+                          '/result',
+                          arguments: q.result,
+                        );
                       }
                       setState(() {
                         if (counter <= 29) counter += 1;
-                        result[counter - 1] = isSelected.indexOf(true) + 1;
+                        q.result[counter - 1] = isSelected.indexOf(true) + 1;
 
-                        print(result);
+                        print(q.result);
                         isSelected = [false, false, false, false, false];
                       });
 
