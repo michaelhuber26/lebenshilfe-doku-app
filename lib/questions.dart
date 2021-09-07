@@ -2,7 +2,7 @@ class Question {
   int? answer;
   String category;
   String subcategory;
-  List result = List.filled(29, 0, growable: false);
+  List<int> result = List.filled(29, 0, growable: false);
 
   Question({required this.category, required this.subcategory});
 

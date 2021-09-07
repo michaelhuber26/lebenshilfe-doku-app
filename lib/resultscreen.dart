@@ -10,7 +10,7 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen> {
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments;
+    final args = ModalRoute.of(context)!.settings.arguments as List<int>;
 
     return Scaffold(
       body: Center(
@@ -19,10 +19,22 @@ class _ResultScreenState extends State<ResultScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Result Screen',
+              'Übersicht über die ausgewählten Piktogramme',
               style: TextStyle(fontSize: 40),
             ),
-            Text(args.toString()),
+            Column(
+              children: [
+                Text(
+                  'Ausgewählte Piktogramme der Reihenfolge nach\n',
+                  style: TextStyle(fontSize: 18),
+                ),
+                Text(
+                  args.toString(),
+                  style: TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+            // for (var i in args) Text(i.toString()),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/');
