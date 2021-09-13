@@ -56,13 +56,49 @@ class _QuestionScreenState extends State<QuestionScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (counter < 29)
-                  Image.asset(
-                    // "assets/fragen_img/q_1.png",
-                    "assets/fragen_img/q_" + (counter + 1).toString() + ".png",
-                    width: 250,
-                    height: 250,
+                  Container(
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: CircleAvatar(
+                        radius: 125,
+                        backgroundImage: AssetImage(
+                          // "assets/fragen_img/q_1.png",
+                          "assets/fragen_img/q_" +
+                              (counter + 1).toString() +
+                              ".png",
+                        ),
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 2,
+                      ),
+                    ),
                   ),
-                //"assets/fragen_img/q_" +
+
+                // CircleAvatar(
+                //   radius: 125,
+                //   backgroundColor: Colors.black,
+                //   child: CircleAvatar(
+                //     radius: 120.0,
+                //     backgroundImage: AssetImage(
+                //       // "assets/fragen_img/q_1.png",
+                //       "assets/fragen_img/q_" +
+                //           (counter + 1).toString() +
+                //           ".png",
+                //     ),
+                //   ),
+                // ),
+
+                // Image.asset(
+                //   // "assets/fragen_img/q_1.png",
+                //   "assets/fragen_img/q_" + (counter + 1).toString() + ".png",
+                //   width: 250,
+                //   height: 250,
+                // ),
+                // "assets/fragen_img/q_" +
                 // (counter + 1).toString() +
                 // ".png"
 
@@ -95,10 +131,24 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     ),
                   ],
                 ),
-                ImageIcon(
-                  AssetImage("assets/images/notfound_1.png"),
-                  color: Colors.orange,
-                  size: 250,
+
+                Container(
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: CircleAvatar(
+                      foregroundColor: Colors.transparent,
+                      backgroundColor: Colors.transparent,
+                      radius: 125,
+                      backgroundImage: AssetImage("assets/images/notfound.png"),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 2,
+                    ),
+                  ),
                 ),
               ],
             ),
