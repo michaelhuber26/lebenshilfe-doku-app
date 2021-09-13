@@ -25,9 +25,26 @@ class _QuestionScreenState extends State<QuestionScreen> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Agogische Dokumentation'),
         centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: IconButton(
+              icon: Icon(Icons.credit_score_outlined),
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/result',
+                  // hand the result list to the result screen
+                  arguments: q.result,
+                );
+              },
+            ),
+          )
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
