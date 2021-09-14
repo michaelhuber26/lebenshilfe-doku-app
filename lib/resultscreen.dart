@@ -15,7 +15,7 @@ class _ResultScreenState extends State<ResultScreen> {
     List questions = q.getAllQuestions();
     double _imgsize = 110;
 
-    final args = ModalRoute.of(context)!.settings.arguments as List<int>;
+    final args = ModalRoute.of(context)!.settings.arguments as Question;
 
     return Scaffold(
       appBar: AppBar(
@@ -33,7 +33,9 @@ class _ResultScreenState extends State<ResultScreen> {
             Column(
               children: [
                 Text(
-                  'Ausgewählte Piktogramme der Reihenfolge nach: $args\n',
+                  'Ausgewählte Piktogramme der Reihenfolge nach:' +
+                      args.result.toString() +
+                      '\n',
                   style: TextStyle(fontSize: 18),
                 ),
               ],
@@ -67,31 +69,31 @@ class _ResultScreenState extends State<ResultScreen> {
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 )),
-                            if (args[index] == 0)
+                            if (args.result[index] == 0)
                               Image.asset(
                                 "assets/images/notfound.png",
                                 width: _imgsize,
                                 height: _imgsize,
                               ),
-                            if (args[index] == 1)
+                            if (args.result[index] == 1)
                               Image.asset(
                                 "assets/images/allein_t.png",
                                 width: _imgsize,
                                 height: _imgsize,
                               ),
-                            if (args[index] == 2)
+                            if (args.result[index] == 2)
                               Image.asset(
                                 "assets/images/mit_anleitung_t.png",
                                 width: _imgsize,
                                 height: _imgsize,
                               ),
-                            if (args[index] == 3)
+                            if (args.result[index] == 3)
                               Image.asset(
                                 "assets/images/mit_unterstuetzung_t.png",
                                 width: _imgsize,
                                 height: _imgsize,
                               ),
-                            if (args[index] == 4)
+                            if (args.result[index] == 4)
                               Image.asset(
                                 "assets/images/nicht_t.png",
                                 width: _imgsize,

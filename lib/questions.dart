@@ -3,6 +3,7 @@ class Question {
   String category;
   String subcategory;
   List<int> result = List.filled(29, 0, growable: false);
+  List<bool> isLiked = List.filled(29, false, growable: false);
 
   Question({required this.category, required this.subcategory});
 

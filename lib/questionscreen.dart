@@ -13,7 +13,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
   Question q = Question(category: '', subcategory: '');
   // List result = List.filled(29, 0, growable: false);
 
-  bool toggle = false;
+  // wird für selbst coded togglebuttons verwendet
+  // bool toggle = false;
+  bool isFavorite = false;
+
   List<bool> isSelected = [false, false, false, false];
 
   @override
@@ -295,6 +298,30 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   width: 70,
                   height: 70,
                   child: FloatingActionButton(
+                    heroTag: 'btnlike',
+                    child: isFavorite
+                        ? Icon(
+                            Icons.grade,
+                            color: Colors.orange,
+                            size: 65,
+                          )
+                        : Icon(
+                            Icons.grade_outlined,
+                            color: Colors.grey,
+                            size: 65,
+                          ),
+                    onPressed: () {
+                      isFavorite = !isFavorite;
+                      setState(() {});
+                    },
+                    elevation: 0,
+                    backgroundColor: Colors.black.withOpacity(0),
+                  ),
+                ),
+                Container(
+                  width: 70,
+                  height: 70,
+                  child: FloatingActionButton(
                     heroTag: 'btnforward',
                     onPressed: () {
                       if (counter >= 28) {
@@ -302,7 +329,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                           context,
                           '/result',
                           // hand the result list to the result screen
-                          arguments: q.result,
+                          arguments: q,
                         );
                       }
                       setState(() {
