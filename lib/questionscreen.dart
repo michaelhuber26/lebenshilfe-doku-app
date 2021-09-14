@@ -277,6 +277,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       setState(() {
                         if (counter > 0) counter -= 1;
 
+                        isFavorite = q.isLiked[counter];
+
                         // to select the piktogram which wos prior selected
                         if (q.result[counter] != 0) {
                           isSelected = [false, false, false, false];
@@ -312,6 +314,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
                           ),
                     onPressed: () {
                       isFavorite = !isFavorite;
+
+                      if (isFavorite) {
+                        q.isLiked[counter] = true;
+                      } else
+                        q.isLiked[counter] = false;
+
                       setState(() {});
                     },
                     elevation: 0,
@@ -338,6 +346,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                         q.result[counter - 1] = isSelected.indexOf(true) + 1;
 
                         print(q.result);
+                        isFavorite = q.isLiked[counter];
                         // select no piktogram for the new page
                         isSelected = [false, false, false, false];
                       });

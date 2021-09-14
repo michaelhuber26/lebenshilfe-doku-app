@@ -30,16 +30,16 @@ class _ResultScreenState extends State<ResultScreen> {
               'Übersicht über die ausgewählten Piktogramme',
               style: TextStyle(fontSize: 40),
             ),
-            Column(
-              children: [
-                Text(
-                  'Ausgewählte Piktogramme der Reihenfolge nach:' +
-                      args.result.toString() +
-                      '\n',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ],
-            ),
+            // Column(
+            //   children: [
+            //     Text(
+            //       'Ausgewählte Piktogramme der Reihenfolge nach:' +
+            //           args.isLiked.toString() +
+            //           '\n',
+            //       style: TextStyle(fontSize: 18),
+            //     ),
+            //   ],
+            // ),
             Expanded(
               child: ListView.builder(
                   itemCount: questions.length,
@@ -49,6 +49,18 @@ class _ResultScreenState extends State<ResultScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            if (args.isLiked[index])
+                              Icon(
+                                Icons.grade,
+                                color: Colors.orange,
+                                size: 65,
+                              ),
+                            if (args.isLiked[index] == false)
+                              Icon(
+                                Icons.grade_outlined,
+                                color: Colors.grey,
+                                size: 65,
+                              ),
                             Container(
                               padding: EdgeInsets.only(left: 10, right: 10),
                               child: Image.asset(
