@@ -105,7 +105,7 @@ const List all_categories = [
     "category": "7.) Interaktion und Beziehung",
     "subcategory": [
       {"sub_id": 1, "subcategory": "Mit Fremden umgehen"},
-      {"sub_id": 2, "subcategory": "Soziale Beziehung (soziale Kontakte"},
+      {"sub_id": 2, "subcategory": "Soziale Beziehung (soziale Kontakte)"},
       {"sub_id": 3, "subcategory": "Familienbeziehung"},
       {"sub_id": 4, "subcategory": "Intime Beziehung"}
     ]
@@ -118,7 +118,7 @@ const List all_categories = [
         "sub_id": 1,
         "subcategory": "Arbeit und Beschäftigung; Vorbereitung Außenarbeit"
       },
-      {"sub_id": 2, "subcategory": "Umgang mit Geld (Taschengeld"}
+      {"sub_id": 2, "subcategory": "Umgang mit Geld (Taschengeld)"}
     ]
   },
   {

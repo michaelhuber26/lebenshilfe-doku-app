@@ -136,7 +136,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    final pdfFile = await PdfApi.generate("test.pdf", args);
+                    final pdfFile = await PdfApi.generate("ergebnis.pdf", args);
 
                     PdfApi.openFile(pdfFile);
                   },
