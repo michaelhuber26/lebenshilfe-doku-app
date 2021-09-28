@@ -10,6 +10,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   String _title = '';
   String _subtitle = '';
   int counter = 0;
+  // object of the Question class
   Question q = Question(category: '', subcategory: '');
   // List result = List.filled(29, 0, growable: false);
 
@@ -42,7 +43,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   context,
                   '/result',
                   // hand the result list to the result screen
-                  arguments: q.result,
+                  arguments: q,
                 );
               },
             ),

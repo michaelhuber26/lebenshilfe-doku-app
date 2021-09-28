@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import './questions.dart';
+import 'api/pdf_api.dart';
 
 class ResultScreen extends StatefulWidget {
   @override
@@ -119,14 +122,30 @@ class _ResultScreenState extends State<ResultScreen> {
                   }),
             ),
             // for (var i in args) Text(i.toString()),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/');
-              },
-              child: Text(
-                'GO BACK TO LOGIN',
-                style: TextStyle(fontSize: 25),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/');
+                  },
+                  child: Text(
+                    'GO BACK TO LOGIN',
+                    style: TextStyle(fontSize: 25),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    final pdfFile = await PdfApi.generate("test.pdf", args);
+
+                    PdfApi.openFile(pdfFile);
+                  },
+                  child: Text(
+                    'PDF öffnen',
+                    style: TextStyle(fontSize: 25),
+                  ),
+                ),
+              ],
             )
           ],
         ),
