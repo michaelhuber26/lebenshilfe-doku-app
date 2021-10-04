@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './questions.dart';
+import 'api/tts_api.dart';
 
 class QuestionScreen extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   String _title = '';
   String _subtitle = '';
   int counter = 0;
+
   // object of the Question class
   Question q = Question(category: '', subcategory: '');
   // List result = List.filled(29, 0, growable: false);
@@ -314,12 +316,17 @@ class _QuestionScreenState extends State<QuestionScreen> {
                             size: 65,
                           ),
                     onPressed: () {
+                      TtsApi a = TtsApi();
+
                       isFavorite = !isFavorite;
 
                       if (isFavorite) {
                         q.isLiked[counter] = true;
-                      } else
+                        a.speak('ist mir wichtig');
+                      } else {
                         q.isLiked[counter] = false;
+                        a.speak('ist nicht wichtig');
+                      }
 
                       setState(() {});
                     },

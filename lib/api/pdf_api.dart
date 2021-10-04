@@ -20,10 +20,6 @@ class PdfApi {
     List favImages = await _getFavImageList(args.isLiked);
     List selectedImages = await _getSelectedImageList(args.result);
 
-    final image1 = (await rootBundle.load('assets/images/allein_t.png'))
-        .buffer
-        .asUint8List();
-
     pdf.addPage(MultiPage(
       pageTheme: PageTheme(pageFormat: PdfPageFormat.a4),
       build: (context) => [

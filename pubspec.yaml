@@ -37,6 +37,9 @@ dependencies:
   # open pdf document
   open_file: ^3.2.1
 
+  #text to speach
+  flutter_tts: ^3.2.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
