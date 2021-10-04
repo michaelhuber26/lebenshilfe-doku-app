@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 
-import '../questions.dart';
+import '../models/questions.dart';
 
 class PdfApi {
   static Future<File> generate(name, args) async {

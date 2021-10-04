@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './questions.dart';
-import 'api/tts_api.dart';
+import '../../models/questions.dart';
+import '../../services/tts_api.dart';
 
 class QuestionScreen extends StatefulWidget {
   @override
@@ -11,6 +11,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   String _title = '';
   String _subtitle = '';
   int counter = 0;
+  TtsApi tts = TtsApi();
 
   // object of the Question class
   Question q = Question(category: '', subcategory: '');
@@ -21,6 +22,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
   bool isFavorite = false;
 
   List<bool> isSelected = [false, false, false, false];
+
+  @override
+  void initState() {
+    super.initState();
+    tts.initTts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,31 +90,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       ),
                     ),
                   ),
-
-                // CircleAvatar(
-                //   radius: 125,
-                //   backgroundColor: Colors.black,
-                //   child: CircleAvatar(
-                //     radius: 120.0,
-                //     backgroundImage: AssetImage(
-                //       // "assets/fragen_img/q_1.png",
-                //       "assets/fragen_img/q_" +
-                //           (counter + 1).toString() +
-                //           ".png",
-                //     ),
-                //   ),
-                // ),
-
-                // Image.asset(
-                //   // "assets/fragen_img/q_1.png",
-                //   "assets/fragen_img/q_" + (counter + 1).toString() + ".png",
-                //   width: 250,
-                //   height: 250,
-                // ),
-                // "assets/fragen_img/q_" +
-                // (counter + 1).toString() +
-                // ".png"
-
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   textDirection: TextDirection.rtl,
@@ -137,7 +119,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     ),
                   ],
                 ),
-
                 Container(
                   child: FittedBox(
                     fit: BoxFit.contain,
@@ -282,7 +263,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
                         isFavorite = q.isLiked[counter];
 
-                        // to select the piktogram which wos prior selected
+                        // to select the piktogram which was prior selected
                         if (q.result[counter] != 0) {
                           isSelected = [false, false, false, false];
                           isSelected[q.result[counter] - 1] = true;
@@ -316,16 +297,14 @@ class _QuestionScreenState extends State<QuestionScreen> {
                             size: 65,
                           ),
                     onPressed: () {
-                      TtsApi a = TtsApi();
-
                       isFavorite = !isFavorite;
 
                       if (isFavorite) {
                         q.isLiked[counter] = true;
-                        a.speak('ist mir wichtig');
+                        tts.speak('wichtig');
                       } else {
                         q.isLiked[counter] = false;
-                        a.speak('ist nicht wichtig');
+                        tts.speak('nicht wichtig');
                       }
 
                       setState(() {});
@@ -354,7 +333,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                         q.result[counter - 1] = isSelected.indexOf(true) + 1;
 
                         print(q.result);
-                        isFavorite = q.isLiked[counter];
+                        if (counter < 29) isFavorite = q.isLiked[counter];
                         // select no piktogram for the new page
                         isSelected = [false, false, false, false];
                       });
