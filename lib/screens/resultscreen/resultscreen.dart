@@ -12,7 +12,7 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen> {
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Question;
+    final args = ModalRoute.of(context)!.settings.arguments as List<Question>;
 
     return Scaffold(
       appBar: AppBar(

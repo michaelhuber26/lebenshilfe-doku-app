@@ -1,5 +1,6 @@
 import 'package:dokumentation_lh/services/pdf_api.dart';
 import 'package:dokumentation_lh/models/questions.dart';
+import 'package:dokumentation_lh/utils/allQuestions.dart';
 import 'package:flutter/material.dart';
 
 class Body extends StatelessWidget {
@@ -8,7 +9,7 @@ class Body extends StatelessWidget {
     required this.args,
   }) : super(key: key);
 
-  final Question args;
+  final List<Question> args;
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +59,9 @@ class ListViewResult extends StatelessWidget {
     required this.args,
   }) : super(key: key);
 
-  final List questions =
-      Question(category: '', subcategory: '').getAllQuestions();
+  final List questions = getAllQuestions();
   final double _imgsize = 110;
-  final Question args;
+  final List<Question> args;
 
   @override
   Widget build(BuildContext context) {
@@ -74,13 +74,13 @@ class ListViewResult extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    if (args.isLiked[index])
+                    if (args[index].isLiked)
                       Icon(
                         Icons.grade,
                         color: Colors.orange,
                         size: 65,
                       ),
-                    if (args.isLiked[index] == false)
+                    if (args[index].isLiked == false)
                       Icon(
                         Icons.grade_outlined,
                         color: Colors.grey,
@@ -105,31 +105,31 @@ class ListViewResult extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         )),
-                    if (args.result[index] == 0)
+                    if (args[index].result == 0)
                       Image.asset(
                         "assets/images/notfound.png",
                         width: _imgsize,
                         height: _imgsize,
                       ),
-                    if (args.result[index] == 1)
+                    if (args[index].result == 1)
                       Image.asset(
                         "assets/images/allein_t.png",
                         width: _imgsize,
                         height: _imgsize,
                       ),
-                    if (args.result[index] == 2)
+                    if (args[index].result == 2)
                       Image.asset(
                         "assets/images/mit_anleitung_t.png",
                         width: _imgsize,
                         height: _imgsize,
                       ),
-                    if (args.result[index] == 3)
+                    if (args[index].result == 3)
                       Image.asset(
                         "assets/images/mit_unterstuetzung_t.png",
                         width: _imgsize,
                         height: _imgsize,
                       ),
-                    if (args.result[index] == 4)
+                    if (args[index].result == 4)
                       Image.asset(
                         "assets/images/nicht_t.png",
                         width: _imgsize,

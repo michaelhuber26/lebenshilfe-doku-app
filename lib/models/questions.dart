@@ -1,38 +1,14 @@
 class Question {
-  int? answer;
   String category;
   String subcategory;
-  List<int> result = List.filled(29, 0, growable: false);
-  List<bool> isLiked = List.filled(29, false, growable: false);
+  int result = 0;
+  bool isLiked = false;
 
   Question({required this.category, required this.subcategory});
 
   @override
   String toString() {
     return '{ ${this.category}, ${this.subcategory}}';
-  }
-
-  List getAllQuestions() {
-    List questions = [];
-
-    all_categories.forEach((element) {
-      element['subcategory'].forEach((subelement) {
-        questions.add((Question(
-            category: element['category'],
-            subcategory: subelement['subcategory'])));
-      });
-    });
-
-    return questions;
-  }
-
-  Question getQuestionbyID(int id) {
-    List questions = getAllQuestions();
-
-    for (var i = 0; i < questions.length; i++) {
-      if (i == id) return questions[i];
-    }
-    throw ("QUESTION WITH ID $id NOT FOUND");
   }
 }
 

@@ -1,3 +1,4 @@
+import 'package:dokumentation_lh/utils/allQuestions.dart';
 import 'package:flutter/material.dart';
 import '../../models/questions.dart';
 import '../../services/tts_api.dart';
@@ -13,15 +14,13 @@ class _QuestionScreenState extends State<QuestionScreen> {
   int counter = 0;
   TtsApi tts = TtsApi();
 
-  // object of the Question class
-  Question q = Question(category: '', subcategory: '');
-  // List result = List.filled(29, 0, growable: false);
-
   // wird für selbst coded togglebuttons verwendet
   // bool toggle = false;
   bool isFavorite = false;
 
   List<bool> isSelected = [false, false, false, false];
+
+  late List<Question> allQuestions = getAllQuestions();
 
   @override
   void initState() {
@@ -33,8 +32,87 @@ class _QuestionScreenState extends State<QuestionScreen> {
   Widget build(BuildContext context) {
     print('BUILD Function called');
     if (counter <= 28) {
-      _title = q.getQuestionbyID(counter).category;
-      _subtitle = q.getQuestionbyID(counter).subcategory;
+      _title = allQuestions[counter].category;
+      _subtitle = allQuestions[counter].subcategory;
+    }
+    void _pressedAnswer(int index) {
+      setState(() {
+        for (int buttonIndex = 0;
+            buttonIndex < isSelected.length;
+            buttonIndex++) {
+          if (buttonIndex == index) {
+            isSelected[buttonIndex] = true;
+            if (index == 0) tts.speak("Schaffe ich alleine");
+            if (index == 1) tts.speak("Schaffe ich mit Anleitung");
+            if (index == 2) tts.speak("Schaffe ich mit Unterstützung");
+            if (index == 3) tts.speak("Schaffe ich nicht");
+          } else {
+            isSelected[buttonIndex] = false;
+          }
+        }
+      });
+    }
+
+    void _pressedBack() {
+      if (counter <= 0) {
+        Navigator.pop(context);
+      }
+      setState(() {
+        if (counter > 0) counter -= 1;
+
+        // set favorite icon
+        isFavorite = allQuestions[counter].isLiked;
+
+        // to select the piktogram which was prior selected
+        if (allQuestions[counter].result != 0) {
+          isSelected = [false, false, false, false];
+          isSelected[allQuestions[counter - 1].result] = true;
+        } else
+          isSelected = [false, false, false, false];
+      });
+    }
+
+    void _pressedFavorite() {
+      isFavorite = !isFavorite;
+
+      if (isFavorite) {
+        allQuestions[counter].isLiked = true;
+        tts.speak('ist mir wichtig');
+      } else {
+        allQuestions[counter].isLiked = false;
+        tts.speak('ist mir nicht wichtig');
+      }
+
+      setState(() {});
+    }
+
+    void _pressedForward() {
+      // check if all questions are answerd
+      bool _allAnswerd = false;
+      for (int i = 0; i < 29; i++) {
+        _allAnswerd = true;
+        if (allQuestions[i].result == 0) _allAnswerd = false;
+      }
+      if (_allAnswerd) {
+        Navigator.pushNamed(
+          context,
+          '/result',
+          // hand the result list to the result screen
+          arguments: allQuestions,
+        );
+      } else {
+        setState(() {
+          if (counter < 29) counter += 1;
+          // saves the number of the selected piktogram in q.result
+          allQuestions[counter - 1].result = isSelected.indexOf(true) + 1;
+
+          print(allQuestions);
+
+          if (counter < 29) isFavorite = allQuestions[counter].isLiked;
+          // select no piktogram for the new page
+          isSelected = [false, false, false, false];
+        });
+      }
     }
 
     return Scaffold(
@@ -52,7 +130,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   context,
                   '/result',
                   // hand the result list to the result screen
-                  arguments: q,
+                  arguments: allQuestions,
                 );
               },
             ),
@@ -173,19 +251,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                             height: 240,
                           ),
                         ],
-                        onPressed: (int index) {
-                          setState(() {
-                            for (int buttonIndex = 0;
-                                buttonIndex < isSelected.length;
-                                buttonIndex++) {
-                              if (buttonIndex == index) {
-                                isSelected[buttonIndex] = true;
-                              } else {
-                                isSelected[buttonIndex] = false;
-                              }
-                            }
-                          });
-                        },
+                        onPressed: _pressedAnswer,
                         isSelected: isSelected),
                   ),
                 )
@@ -254,23 +320,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   height: 70,
                   child: FloatingActionButton(
                     heroTag: 'btnback',
-                    onPressed: () {
-                      if (counter <= 0) {
-                        Navigator.pop(context);
-                      }
-                      setState(() {
-                        if (counter > 0) counter -= 1;
-
-                        isFavorite = q.isLiked[counter];
-
-                        // to select the piktogram which was prior selected
-                        if (q.result[counter] != 0) {
-                          isSelected = [false, false, false, false];
-                          isSelected[q.result[counter] - 1] = true;
-                        } else
-                          isSelected = [false, false, false, false];
-                      });
-                    },
+                    onPressed: _pressedBack,
                     child: Icon(
                       Icons.arrow_back_ios_new,
                       color: Colors.deepPurple,
@@ -296,19 +346,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                             color: Colors.grey,
                             size: 65,
                           ),
-                    onPressed: () {
-                      isFavorite = !isFavorite;
-
-                      if (isFavorite) {
-                        q.isLiked[counter] = true;
-                        tts.speak('wichtig');
-                      } else {
-                        q.isLiked[counter] = false;
-                        tts.speak('nicht wichtig');
-                      }
-
-                      setState(() {});
-                    },
+                    onPressed: _pressedFavorite,
                     elevation: 0,
                     backgroundColor: Colors.black.withOpacity(0),
                   ),
@@ -318,28 +356,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   height: 70,
                   child: FloatingActionButton(
                     heroTag: 'btnforward',
-                    onPressed: () {
-                      if (counter >= 28) {
-                        Navigator.pushNamed(
-                          context,
-                          '/result',
-                          // hand the result list to the result screen
-                          arguments: q,
-                        );
-                      }
-                      setState(() {
-                        if (counter <= 29) counter += 1;
-                        // saves the number of the selected piktogram in q.result
-                        q.result[counter - 1] = isSelected.indexOf(true) + 1;
-
-                        print(q.result);
-                        if (counter < 29) isFavorite = q.isLiked[counter];
-                        // select no piktogram for the new page
-                        isSelected = [false, false, false, false];
-                      });
-
-                      // Navigator.pushNamed(context, '/question');
-                    },
+                    onPressed: _pressedForward,
                     child: Icon(
                       Icons.arrow_forward_ios,
                       color: Colors.deepPurple,
