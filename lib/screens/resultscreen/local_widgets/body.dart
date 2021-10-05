@@ -1,6 +1,5 @@
 import 'package:dokumentation_lh/services/pdf_api.dart';
 import 'package:dokumentation_lh/models/questions.dart';
-import 'package:dokumentation_lh/utils/allQuestions.dart';
 import 'package:flutter/material.dart';
 
 class Body extends StatelessWidget {
@@ -59,7 +58,6 @@ class ListViewResult extends StatelessWidget {
     required this.args,
   }) : super(key: key);
 
-  final List questions = getAllQuestions();
   final double _imgsize = 110;
   final List<Question> args;
 
@@ -67,7 +65,7 @@ class ListViewResult extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
-          itemCount: questions.length,
+          itemCount: args.length,
           itemBuilder: (context, index) {
             return Column(
               children: [
@@ -101,7 +99,7 @@ class ListViewResult extends StatelessWidget {
                         padding: EdgeInsets.only(right: 20),
                         height: 25,
                         child: Text(
-                          questions[index].subcategory + ": ",
+                          args[index].subcategory + ": ",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         )),

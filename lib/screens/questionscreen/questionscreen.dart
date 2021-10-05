@@ -18,7 +18,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
   // bool toggle = false;
   bool isFavorite = false;
 
-  List<bool> isSelected = [false, false, false, false];
+  List<bool> _firstClick = [true, true, true, true];
+  List<bool> _isSelected = [false, false, false, false];
 
   late List<Question> allQuestions = getAllQuestions();
 
@@ -35,21 +36,33 @@ class _QuestionScreenState extends State<QuestionScreen> {
       _title = allQuestions[counter].category;
       _subtitle = allQuestions[counter].subcategory;
     }
+
+    void _pressedQuestion() {
+      tts.speak(allQuestions[counter].subcategory);
+    }
+
     void _pressedAnswer(int index) {
       setState(() {
-        for (int buttonIndex = 0;
-            buttonIndex < isSelected.length;
-            buttonIndex++) {
-          if (buttonIndex == index) {
-            isSelected[buttonIndex] = true;
+        for (int btnIndex = 0; btnIndex < _isSelected.length; btnIndex++) {
+          if (_firstClick[index] == true &&
+              btnIndex == index &&
+              _isSelected[btnIndex] == false) {
+            _firstClick = [true, true, true, true];
+            _isSelected = [false, false, false, false];
+            _firstClick[index] = false;
             if (index == 0) tts.speak("Schaffe ich alleine");
             if (index == 1) tts.speak("Schaffe ich mit Anleitung");
             if (index == 2) tts.speak("Schaffe ich mit Unterstützung");
             if (index == 3) tts.speak("Schaffe ich nicht");
-          } else {
-            isSelected[buttonIndex] = false;
+          } else if (_firstClick[index] == false && btnIndex == index) {
+            _isSelected[btnIndex] = true;
+            _firstClick[btnIndex] = true;
           }
+          //else {
+          //   _isSelected[btnIndex] = false;
+          // }
         }
+        print(_firstClick);
       });
     }
 
@@ -63,12 +76,11 @@ class _QuestionScreenState extends State<QuestionScreen> {
         // set favorite icon
         isFavorite = allQuestions[counter].isLiked;
 
+        _isSelected = [false, false, false, false];
         // to select the piktogram which was prior selected
         if (allQuestions[counter].result != 0) {
-          isSelected = [false, false, false, false];
-          isSelected[allQuestions[counter - 1].result] = true;
-        } else
-          isSelected = [false, false, false, false];
+          _isSelected[allQuestions[counter].result - 1] = true;
+        }
       });
     }
 
@@ -102,15 +114,20 @@ class _QuestionScreenState extends State<QuestionScreen> {
         );
       } else {
         setState(() {
-          if (counter < 29) counter += 1;
-          // saves the number of the selected piktogram in q.result
-          allQuestions[counter - 1].result = isSelected.indexOf(true) + 1;
+          if (counter < 28) counter += 1;
+          // saves the number of the selected piktogram in allQuestions
+          allQuestions[counter - 1].result = _isSelected.indexOf(true) + 1;
 
           print(allQuestions);
 
           if (counter < 29) isFavorite = allQuestions[counter].isLiked;
+
           // select no piktogram for the new page
-          isSelected = [false, false, false, false];
+          _isSelected = [false, false, false, false];
+          // to select the piktogram which was in front selected
+          if (allQuestions[counter].result != 0) {
+            _isSelected[allQuestions[counter].result - 1] = true;
+          }
         });
       }
     }
@@ -157,6 +174,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
                           "assets/fragen_img/q_" +
                               (counter + 1).toString() +
                               ".png",
+                        ),
+                        child: IconButton(
+                          color: Colors.transparent,
+                          iconSize: 200,
+                          icon: Icon(Icons.clear),
+                          onPressed: _pressedQuestion,
                         ),
                       ),
                     ),
@@ -205,6 +228,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       backgroundColor: Colors.transparent,
                       radius: 125,
                       backgroundImage: AssetImage("assets/images/notfound.png"),
+                      child: IconButton(
+                        color: Colors.transparent,
+                        iconSize: 200,
+                        icon: Icon(Icons.clear),
+                        onPressed: _pressedQuestion,
+                      ),
                     ),
                   ),
                   decoration: BoxDecoration(
@@ -252,7 +281,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                           ),
                         ],
                         onPressed: _pressedAnswer,
-                        isSelected: isSelected),
+                        isSelected: _isSelected),
                   ),
                 )
 

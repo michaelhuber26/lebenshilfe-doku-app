@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dokumentation_lh/models/questions.dart';
 import 'package:dokumentation_lh/utils/allQuestions.dart';
 import 'package:flutter/services.dart';
 import 'package:open_file/open_file.dart';
@@ -16,13 +17,18 @@ class PdfApi {
     //List<bool> isLiked = args.isLiked;
 
     List qImages = await _getQImageList();
-    List favImages = await _getFavImageList(args.isLiked);
-    List selectedImages = await _getSelectedImageList(args.result);
+    List favImages = await _getFavImageList(args);
+    List selectedImages = await _getSelectedImageList(args);
 
     pdf.addPage(MultiPage(
       pageTheme: PageTheme(pageFormat: PdfPageFormat.a4),
       build: (context) => [
-        Center(child: Text("Ergebnis: ")),
+        Center(
+            child: Text("Ergebnis: ",
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  fontWeight: FontWeight.bold,
+                ))),
         for (int i = 0; i < 29; i++)
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Row(children: [
@@ -82,11 +88,11 @@ class PdfApi {
     return images;
   }
 
-  static Future _getFavImageList(List<bool> isLiked) async {
+  static Future _getFavImageList(List<Question> allQuestions) async {
     final List images = [];
 
     for (int i = 0; i < 29; i++) {
-      if (isLiked[i]) {
+      if (allQuestions[i].isLiked) {
         final tempImg = (await rootBundle.load(
           "assets/icons/grade.png",
         ))
@@ -106,32 +112,32 @@ class PdfApi {
     return images;
   }
 
-  static Future _getSelectedImageList(List<int> result) async {
+  static Future _getSelectedImageList(List<Question> allQuestions) async {
     final List images = [];
 
     for (int i = 0; i < 29; i++) {
-      if (result[i] == 1) {
+      if (allQuestions[i].result == 1) {
         final tempImg = (await rootBundle.load(
           "assets/images/allein_t.png",
         ))
             .buffer
             .asUint8List();
         images.add(tempImg);
-      } else if (result[i] == 2) {
+      } else if (allQuestions[i].result == 2) {
         final tempImg = (await rootBundle.load(
           "assets/images/mit_anleitung_t.png",
         ))
             .buffer
             .asUint8List();
         images.add(tempImg);
-      } else if (result[i] == 3) {
+      } else if (allQuestions[i].result == 3) {
         final tempImg = (await rootBundle.load(
           "assets/images/mit_unterstuetzung_t.png",
         ))
             .buffer
             .asUint8List();
         images.add(tempImg);
-      } else if (result[i] == 4) {
+      } else if (allQuestions[i].result == 4) {
         final tempImg = (await rootBundle.load(
           "assets/images/nicht_t.png",
         ))
