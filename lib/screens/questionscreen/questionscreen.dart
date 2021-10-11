@@ -11,12 +11,13 @@ class QuestionScreen extends StatefulWidget {
 class _QuestionScreenState extends State<QuestionScreen> {
   String _title = '';
   String _subtitle = '';
-  int counter = 0;
+  int _counter = 0;
   TtsApi tts = TtsApi();
 
   // wird für selbst coded togglebuttons verwendet
   // bool toggle = false;
   bool isFavorite = false;
+  bool _firstTimeAns = true;
 
   List<bool> _firstClick = [true, true, true, true];
   List<bool> _isSelected = [false, false, false, false];
@@ -32,13 +33,13 @@ class _QuestionScreenState extends State<QuestionScreen> {
   @override
   Widget build(BuildContext context) {
     print('BUILD Function called');
-    if (counter <= 28) {
-      _title = allQuestions[counter].category;
-      _subtitle = allQuestions[counter].subcategory;
+    if (_counter <= 28) {
+      _title = allQuestions[_counter].category;
+      _subtitle = allQuestions[_counter].subcategory;
     }
 
     void _pressedQuestion() {
-      tts.speak(allQuestions[counter].subcategory);
+      tts.speak(allQuestions[_counter].subcategory);
     }
 
     void _pressedAnswer(int index) {
@@ -67,19 +68,19 @@ class _QuestionScreenState extends State<QuestionScreen> {
     }
 
     void _pressedBack() {
-      if (counter <= 0) {
+      if (_counter <= 0) {
         Navigator.pop(context);
       }
       setState(() {
-        if (counter > 0) counter -= 1;
+        if (_counter > 0) _counter -= 1;
 
         // set favorite icon
-        isFavorite = allQuestions[counter].isLiked;
+        isFavorite = allQuestions[_counter].isLiked;
 
         _isSelected = [false, false, false, false];
         // to select the piktogram which was prior selected
-        if (allQuestions[counter].result != 0) {
-          _isSelected[allQuestions[counter].result - 1] = true;
+        if (allQuestions[_counter].result != 0) {
+          _isSelected[allQuestions[_counter].result - 1] = true;
         }
       });
     }
@@ -88,24 +89,48 @@ class _QuestionScreenState extends State<QuestionScreen> {
       isFavorite = !isFavorite;
 
       if (isFavorite) {
-        allQuestions[counter].isLiked = true;
+        allQuestions[_counter].isLiked = true;
         tts.speak('ist mir wichtig');
       } else {
-        allQuestions[counter].isLiked = false;
+        allQuestions[_counter].isLiked = false;
         tts.speak('ist mir nicht wichtig');
       }
 
       setState(() {});
     }
 
-    void _pressedForward() {
-      // check if all questions are answerd
+    // check if all questions are answerd
+    bool _allQuestionAnswerd() {
       bool _allAnswerd = false;
-      for (int i = 0; i < 29; i++) {
+      for (int i = 0; i < allQuestions.length; i++) {
         _allAnswerd = true;
         if (allQuestions[i].result == 0) _allAnswerd = false;
       }
-      if (_allAnswerd) {
+      return _allAnswerd;
+    }
+
+    // find position of not answerd question
+    int _findNotAnswerd() {
+      for (int i = 0; i < allQuestions.length; i++) {
+        if (allQuestions[i].result == 0) return i;
+      }
+      return 0;
+    }
+
+    // sets the counter, which is the current page
+    void _setCounter() {
+      if (_counter == 28 && _firstTimeAns == true) {
+        _firstTimeAns = false;
+        _counter = _findNotAnswerd();
+      } else if (_counter < 28 && _firstTimeAns == true)
+        _counter += 1;
+      else
+        _counter = _findNotAnswerd();
+    }
+
+    void _pressedForward() {
+      // if all questions are awnsered go to Result Screen
+      if (_allQuestionAnswerd()) {
         Navigator.pushNamed(
           context,
           '/result',
@@ -114,19 +139,26 @@ class _QuestionScreenState extends State<QuestionScreen> {
         );
       } else {
         setState(() {
-          if (counter < 28) counter += 1;
           // saves the number of the selected piktogram in allQuestions
-          allQuestions[counter - 1].result = _isSelected.indexOf(true) + 1;
+          allQuestions[_counter].result = _isSelected.indexOf(true) + 1;
 
-          print(allQuestions);
+          _setCounter();
 
-          if (counter < 29) isFavorite = allQuestions[counter].isLiked;
+          // to print results in array
+          List<int> resultArr = [];
+          allQuestions.forEach((element) {
+            resultArr.add(element.result);
+          });
+          print(resultArr);
+
+          if (_counter < allQuestions.length)
+            isFavorite = allQuestions[_counter].isLiked;
 
           // select no piktogram for the new page
           _isSelected = [false, false, false, false];
           // to select the piktogram which was in front selected
-          if (allQuestions[counter].result != 0) {
-            _isSelected[allQuestions[counter].result - 1] = true;
+          if (allQuestions[_counter].result != 0) {
+            _isSelected[allQuestions[_counter].result - 1] = true;
           }
         });
       }
@@ -163,7 +195,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (counter < 29)
+                if (_counter < allQuestions.length)
                   Container(
                     child: FittedBox(
                       fit: BoxFit.contain,
@@ -172,7 +204,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                         backgroundImage: AssetImage(
                           // "assets/fragen_img/q_1.png",
                           "assets/fragen_img/q_" +
-                              (counter + 1).toString() +
+                              (_counter + 1).toString() +
                               ".png",
                         ),
                         child: IconButton(
