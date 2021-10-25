@@ -46,15 +46,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.all(50.0),
+                padding: const EdgeInsets.fromLTRB(50, 35, 50, 35),
                 child: Column(
                   children: [
                     DropdownButton<String>(
-                      // style: TextStyle(
-                      //   fontWeight: FontWeight.bold,
-                      //   fontSize: 25,
-                      // ),
-
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.black),
                       hint: Text("Einrichtung wählen"),
                       items: <String>['A', 'B', 'C', 'D'].map((String value) {
                         return DropdownMenuItem<String>(
