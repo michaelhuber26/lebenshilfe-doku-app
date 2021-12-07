@@ -8,9 +8,25 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final List<String> _einrichungenList = ['A', 'B', 'C', 'D'];
+  String? dropdownValue;
+
+  // Initially password is obscure
+  bool _obscureText = true;
+
+  late String _password;
+
+  // Toggles the password show status
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       // Stack allows widgets to be on top of each other ( for the logo in the top right corner)
       body: Stack(
         children: [
@@ -50,32 +66,44 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     DropdownButton<String>(
+                      value: dropdownValue,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           color: Colors.black),
                       hint: Text("Einrichtung wählen"),
-                      items: <String>['A', 'B', 'C', 'D'].map((String value) {
+                      items: _einrichungenList.map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
                         );
                       }).toList(),
-                      onChanged: (_) {},
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownValue = newValue!;
+                        });
+                      },
                     ),
                     Container(
                       padding: EdgeInsets.all(20),
                       width: 500,
-                      child: TextField(
-                        decoration: InputDecoration(
-                            labelText: "Passwort",
-                            suffixIcon: Icon(Icons.remove_red_eye),
-                            labelStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
-                                color: Colors.black),
-                            border: OutlineInputBorder()),
-                        obscureText: true,
+                      child: new Column(
+                        children: <Widget>[
+                          new TextFormField(
+                            decoration: const InputDecoration(
+                                labelText: 'Password',
+                                icon: const Padding(
+                                    padding: const EdgeInsets.only(top: 15.0),
+                                    child: const Icon(Icons.lock))),
+                            validator: (val) =>
+                                val!.length < 6 ? 'Password too short.' : null,
+                            onSaved: (val) => _password = val!,
+                            obscureText: _obscureText,
+                          ),
+                          new FlatButton(
+                              onPressed: _toggle,
+                              child: new Text(_obscureText ? "Show" : "Hide"))
+                        ],
                       ),
                     ),
                     ElevatedButton(
