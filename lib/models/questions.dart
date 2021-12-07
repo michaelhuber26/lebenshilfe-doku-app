@@ -6,6 +6,8 @@ class Question {
 
   Question({required this.category, required this.subcategory});
 
+  /// returns question object as a string
+  /// with layout: 'category, subcategory'
   @override
   String toString() {
     return '{ ${this.category}, ${this.subcategory}}';

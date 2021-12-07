@@ -14,7 +14,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   int _counter = 0;
   TtsApi tts = TtsApi();
 
-  // wird für selbst coded togglebuttons verwendet
+  /// wird für selbst coded togglebuttons verwendet
   // bool toggle = false;
   bool isFavorite = false;
   bool _firstTimeAns = true;
@@ -42,6 +42,11 @@ class _QuestionScreenState extends State<QuestionScreen> {
       tts.speak(allQuestions[_counter].subcategory);
     }
 
+    /// Triggers when an answer button is pressed
+    /// [index] has the number of the 0 of the 3 possibly pressed buttons
+    /// checks which button was pressed and if it was the first time
+    /// sets the [_firstClick] and [_isSelected] arrays accoring to the pressed button
+    /// and checks if the button was pressed the first time
     void _pressedAnswer(int index) {
       setState(() {
         for (int btnIndex = 0; btnIndex < _isSelected.length; btnIndex++) {
@@ -67,6 +72,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
       });
     }
 
+    /// triggers if the back button was pressed
     void _pressedBack() {
       if (_counter <= 0) {
         Navigator.pop(context);
@@ -85,6 +91,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
       });
     }
 
+    /// triggers if the favourise button was pressed
     void _pressedFavorite() {
       isFavorite = !isFavorite;
 
@@ -99,7 +106,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
       setState(() {});
     }
 
-    // check if all questions are answerd
+    /// check if all questions are answerd
     bool _allQuestionAnswerd() {
       bool _allAnswerd = false;
       for (int i = 0; i < allQuestions.length; i++) {
@@ -109,7 +116,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
       return _allAnswerd;
     }
 
-    // find position of not answerd question
+    /// find position of not answerd question
     int _findNotAnswerd() {
       for (int i = 0; i < allQuestions.length; i++) {
         if (allQuestions[i].result == 0) return i;
@@ -117,7 +124,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
       return 0;
     }
 
-    // sets the counter, which is the current page
+    /// sets the counter, which is the current page
     void _setCounter() {
       if (_counter == 28 && _firstTimeAns == true) {
         _firstTimeAns = false;
@@ -128,6 +135,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
         _counter = _findNotAnswerd();
     }
 
+    /// triggers if the forward button was pressed
     void _pressedForward() {
       // if all questions are awnsered go to Result Screen
       if (_allQuestionAnswerd()) {
