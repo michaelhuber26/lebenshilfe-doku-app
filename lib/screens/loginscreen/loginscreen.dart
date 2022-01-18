@@ -8,13 +8,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final List<String> _einrichungenList = ['A', 'B', 'C', 'D'];
+  final List<String> _einrichungenList = [
+    'Standort A',
+    'Standort B',
+    'Standort C',
+    'Standort D'
+  ];
   String? dropdownValue;
 
   // Initially password is obscure
   bool _obscureText = true;
 
-  late String _password;
+  late String _password; // pw string
 
   // Toggles the password show status
   void _toggle() {
@@ -100,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onSaved: (val) => _password = val!,
                             obscureText: _obscureText,
                           ),
-                          new FlatButton(
+                          new TextButton(
                               onPressed: _toggle,
                               child: new Text(_obscureText ? "Show" : "Hide"))
                         ],
@@ -113,6 +118,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: Text(
                         'Login',
+                        style: TextStyle(fontSize: 25),
+                      ),
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.orange),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/config');
+                      },
+                      child: Text(
+                        'Config',
                         style: TextStyle(fontSize: 25),
                       ),
                     ),

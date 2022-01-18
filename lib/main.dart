@@ -1,3 +1,4 @@
+import 'package:dokumentation_lh/screens/configscreen/configscreen.dart';
 import 'package:dokumentation_lh/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'screens/questionscreen/questionscreen.dart';
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => LoginScreen(),
         '/question': (context) => QuestionScreen(),
-        '/result': (context) => ResultScreen()
+        '/result': (context) => ResultScreen(),
+        '/config': (context) => ConfigScreen()
       },
     );
   }
