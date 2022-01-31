@@ -95,11 +95,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: new Column(
                         children: <Widget>[
                           new TextFormField(
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                                 labelText: 'Password',
-                                icon: const Padding(
+                                icon: Padding(
                                     padding: const EdgeInsets.only(top: 15.0),
-                                    child: const Icon(Icons.lock))),
+                                    child: _obscureText
+                                        ? Icon(Icons.lock)
+                                        : Icon(Icons.lock_open))),
                             validator: (val) =>
                                 val!.length < 6 ? 'Password too short.' : null,
                             onSaved: (val) => _password = val!,
