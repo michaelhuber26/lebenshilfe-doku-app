@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 60, 40, 40),
+                  padding: const EdgeInsets.fromLTRB(40, 120, 40, 40),
                   child: Text(
                     'Agogische Dokumentation',
                     style: TextStyle(
@@ -123,20 +123,32 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(fontSize: 25),
                       ),
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: Colors.orange),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/config');
-                      },
-                      child: Text(
-                        'Config',
-                        style: TextStyle(fontSize: 25),
-                      ),
-                    ),
                   ],
                 ),
-              )
+              ),
             ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Container(
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: Container(
+                  height: 75,
+                  width: 75,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.settings_outlined,
+                      size: 50,
+                      color: Colors.green,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/config');
+                    },
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),
