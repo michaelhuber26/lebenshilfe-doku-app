@@ -1,3 +1,5 @@
+import 'package:dokumentation_lh/models/tts_settings.dart';
+import 'package:dokumentation_lh/utils/user_simple_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -9,22 +11,17 @@ class ConfigScreen extends StatefulWidget {
 }
 
 class _ConfigScreenState extends State<ConfigScreen> {
-  bool _ttsActive = true;
+  TtsSettings ttsSettings = UserSimplePreferences.getTtsSettings();
+  FlutterTts flutterTts = FlutterTts();
+
+  List<String> languages = [];
 
   void _ttsActiveChange(value) {
     setState(() {
-      _ttsActive = value;
-      print(_ttsActive);
+      ttsSettings.isActivated = value;
+      print(ttsSettings.isActivated);
     });
   }
-
-  String? dropdownValue;
-  double volume = 0.5;
-  double rate = 0.5;
-  double pitch = 1.0;
-
-  FlutterTts flutterTts = FlutterTts();
-  List<String> languages = [];
 
   Future _getLanguages() async {
     dynamic sysLanguages = await flutterTts.getLanguages;
@@ -42,6 +39,8 @@ class _ConfigScreenState extends State<ConfigScreen> {
   void initState() {
     super.initState();
     _getLanguages();
+    UserSimplePreferences.setTtsSettings(ttsSettings);
+    ttsSettings = UserSimplePreferences.getTtsSettings();
   }
 
   @override
@@ -83,7 +82,9 @@ class _ConfigScreenState extends State<ConfigScreen> {
                       ),
                     ),
                   ),
-                  Switch(value: _ttsActive, onChanged: _ttsActiveChange)
+                  Switch(
+                      value: ttsSettings.isActivated,
+                      onChanged: _ttsActiveChange)
                 ],
               ),
               Divider(
@@ -105,7 +106,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
                     ),
                   ),
                   DropdownButton<String>(
-                    value: dropdownValue,
+                    value: ttsSettings.language,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -119,7 +120,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
                     }).toList(),
                     onChanged: (String? newValue) {
                       setState(() {
-                        dropdownValue = newValue!;
+                        ttsSettings.language = newValue!;
                       });
                     },
                   ),
@@ -138,14 +139,14 @@ class _ConfigScreenState extends State<ConfigScreen> {
                     ),
                   ),
                   Slider(
-                      value: volume,
+                      value: ttsSettings.volume,
                       onChanged: (newVolume) {
-                        setState(() => volume = newVolume);
+                        setState(() => ttsSettings.volume = newVolume);
                       },
                       min: 0.0,
                       max: 1.0,
                       divisions: 10,
-                      label: "Volume: $volume"),
+                      label: "Volume: ${ttsSettings.volume}"),
                 ],
               ),
               Row(
@@ -161,14 +162,14 @@ class _ConfigScreenState extends State<ConfigScreen> {
                     ),
                   ),
                   Slider(
-                    value: rate,
+                    value: ttsSettings.speechRate,
                     onChanged: (newRate) {
-                      setState(() => rate = newRate);
+                      setState(() => ttsSettings.speechRate = newRate);
                     },
                     min: 0.0,
                     max: 1.0,
                     divisions: 10,
-                    label: "Rate: $rate",
+                    label: "Rate: ${ttsSettings.speechRate}",
                     activeColor: Colors.green,
                   ),
                 ],
@@ -186,17 +187,27 @@ class _ConfigScreenState extends State<ConfigScreen> {
                     ),
                   ),
                   Slider(
-                    value: pitch,
+                    value: ttsSettings.pitch,
                     onChanged: (newPitch) {
-                      setState(() => pitch = newPitch);
+                      setState(() => ttsSettings.pitch = newPitch);
                     },
                     min: 0.5,
                     max: 2.0,
                     divisions: 15,
-                    label: "Pitch: $pitch",
+                    label: "Pitch: ${ttsSettings.pitch}",
                     activeColor: Colors.red,
                   ),
                 ],
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.orange),
+                onPressed: () async {
+                  await UserSimplePreferences.setTtsSettings(ttsSettings);
+                },
+                child: Text(
+                  'Einstellungen Speichern',
+                  style: TextStyle(fontSize: 25),
+                ),
               ),
             ],
           )
