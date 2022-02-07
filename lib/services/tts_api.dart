@@ -1,3 +1,4 @@
+import 'package:dokumentation_lh/models/tts_settings.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 class TtsApi {
@@ -10,7 +11,7 @@ class TtsApi {
 
   /// initialises TTS (text to speech)
   /// android & iOS
-  void initTts() async {
+  void initTts(TtsSettings ttsSettings) async {
     // iOS only
     await flutterTts.setSharedInstance(true);
     // iOS only
@@ -21,6 +22,10 @@ class TtsApi {
       IosTextToSpeechAudioCategoryOptions.mixWithOthers
     ]);
 
-    flutterTts.setLanguage('de-DE');
+    flutterTts.setLanguage(ttsSettings.language.toString());
+    flutterTts.setVolume(ttsSettings.volume);
+    flutterTts.setSpeechRate(ttsSettings.speechRate);
+    flutterTts.setPitch(ttsSettings.pitch);
+    if (!ttsSettings.isActivated) flutterTts.setVolume(0);
   }
 }

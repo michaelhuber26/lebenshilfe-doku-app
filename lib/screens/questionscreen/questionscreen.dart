@@ -1,4 +1,6 @@
+import 'package:dokumentation_lh/models/tts_settings.dart';
 import 'package:dokumentation_lh/utils/allQuestions.dart';
+import 'package:dokumentation_lh/utils/user_simple_preferences.dart';
 import 'package:flutter/material.dart';
 import '../../models/questions.dart';
 import '../../services/tts_api.dart';
@@ -13,6 +15,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   String _subtitle = '';
   int _counter = 0;
   TtsApi tts = TtsApi();
+  TtsSettings ttsSettings = UserSimplePreferences.getTtsSettings();
 
   /// wird für selbst coded togglebuttons verwendet
   // bool toggle = false;
@@ -27,7 +30,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
   @override
   void initState() {
     super.initState();
-    tts.initTts();
+    ttsSettings = UserSimplePreferences.getTtsSettings();
+    tts.initTts(ttsSettings);
   }
 
   @override
