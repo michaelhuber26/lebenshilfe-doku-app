@@ -3,8 +3,8 @@
 /// makes it easier to communicate between the screens to setup tts
 /// it holds all important settings for the usage of the TTS
 class TtsSettings {
-  String? language;
-  bool isActivated = false;
+  String? language = 'de-DE';
+  bool isActivated = true;
   double speechRate = 0.5;
   double volume = 0.5;
   double pitch = 1.0;
