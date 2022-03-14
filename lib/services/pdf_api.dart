@@ -15,7 +15,6 @@ class PdfApi {
     List questions = getAllQuestions();
     double _imgsize = 45;
     //List<bool> isLiked = args.isLiked;
-
     List qImages = await _getQImageList();
     List favImages = await _getFavImageList(args);
     List selectedImages = await _getSelectedImageList(args);
@@ -29,7 +28,7 @@ class PdfApi {
                   decoration: TextDecoration.underline,
                   fontWeight: FontWeight.bold,
                 ))),
-        for (int i = 0; i < 29; i++)
+        for (int i = 0; i < 28; i++)
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Row(children: [
               Container(
@@ -76,7 +75,7 @@ class PdfApi {
   static Future _getQImageList() async {
     final List images = [];
 
-    for (int i = 1; i <= 29; i++) {
+    for (int i = 1; i <= 28; i++) {
       final tempImg = (await rootBundle.load(
         "assets/fragen_img/q_" + i.toString() + ".png",
       ))
@@ -91,7 +90,7 @@ class PdfApi {
   static Future _getFavImageList(List<Question> allQuestions) async {
     final List images = [];
 
-    for (int i = 0; i < 29; i++) {
+    for (int i = 0; i < 28; i++) {
       if (allQuestions[i].isLiked) {
         final tempImg = (await rootBundle.load(
           "assets/icons/grade.png",
@@ -115,7 +114,7 @@ class PdfApi {
   static Future _getSelectedImageList(List<Question> allQuestions) async {
     final List images = [];
 
-    for (int i = 0; i < 29; i++) {
+    for (int i = 0; i < 28; i++) {
       if (allQuestions[i].result == 1) {
         final tempImg = (await rootBundle.load(
           "assets/images/allein_t.png",

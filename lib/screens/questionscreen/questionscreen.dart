@@ -37,7 +37,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   @override
   Widget build(BuildContext context) {
     print('BUILD Function called');
-    if (_counter <= 28) {
+    if (_counter <= allQuestions.length - 1) {
       _title = allQuestions[_counter].category;
       _subtitle = allQuestions[_counter].subcategory;
     }
@@ -130,10 +130,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
     /// sets the counter, which is the current page
     void _setCounter() {
-      if (_counter == 28 && _firstTimeAns == true) {
+      if (_counter == allQuestions.length - 1 && _firstTimeAns == true) {
         _firstTimeAns = false;
         _counter = _findNotAnswerd();
-      } else if (_counter < 28 && _firstTimeAns == true)
+      } else if (_counter < allQuestions.length - 1 && _firstTimeAns == true)
         _counter += 1;
       else
         _counter = _findNotAnswerd();
@@ -210,19 +210,20 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 if (_counter < allQuestions.length)
                   Container(
                     child: FittedBox(
-                      fit: BoxFit.contain,
+                      fit: BoxFit.fill,
                       child: CircleAvatar(
                         radius: 125,
-                        backgroundImage: AssetImage(
-                          // "assets/fragen_img/q_1.png",
-                          "assets/fragen_img/q_" +
-                              (_counter + 1).toString() +
-                              ".png",
-                        ),
+                        backgroundColor: Colors.white,
                         child: IconButton(
                           color: Colors.transparent,
-                          iconSize: 200,
-                          icon: Icon(Icons.clear),
+                          padding: EdgeInsets.all(20),
+                          splashRadius: 135,
+                          iconSize: 175,
+                          icon: Image.asset(
+                            "assets/fragen_img/q_" +
+                                (_counter + 1).toString() +
+                                ".png",
+                          ),
                           onPressed: _pressedQuestion,
                         ),
                       ),
@@ -266,16 +267,20 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 ),
                 Container(
                   child: FittedBox(
-                    fit: BoxFit.contain,
+                    fit: BoxFit.fill,
                     child: CircleAvatar(
-                      foregroundColor: Colors.transparent,
-                      backgroundColor: Colors.transparent,
                       radius: 125,
-                      backgroundImage: AssetImage("assets/images/notfound.png"),
+                      backgroundColor: Colors.white,
                       child: IconButton(
                         color: Colors.transparent,
-                        iconSize: 200,
-                        icon: Icon(Icons.clear),
+                        padding: EdgeInsets.all(20),
+                        splashRadius: 135,
+                        iconSize: 175,
+                        icon: Image.asset(
+                          "assets/fragen_img_2/q_" +
+                              (_counter + 1).toString() +
+                              ".png",
+                        ),
                         onPressed: _pressedQuestion,
                       ),
                     ),
