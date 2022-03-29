@@ -36,6 +36,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    tts.speak(allQuestions[_counter].subcategory);
     print('BUILD Function called');
     if (_counter <= allQuestions.length - 1) {
       _title = allQuestions[_counter].category;

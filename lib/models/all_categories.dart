@@ -13,7 +13,7 @@ const List all_categories = [
     "subcategory": [
       {"sub_id": 1, "subcategory": "Einzelaufgaben übernehmen"},
       {"sub_id": 2, "subcategory": "Mehrfachaufgaben übernehmen"},
-      {"sub_id": 3, "subcategory": "Tgl. Routine durchführen"},
+      {"sub_id": 3, "subcategory": "Tägliche Routine durchführen"},
       {
         "sub_id": 4,
         "subcategory":

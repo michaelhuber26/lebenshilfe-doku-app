@@ -1,10 +1,11 @@
 import 'package:dokumentation_lh/screens/configscreen/configscreen.dart';
+import 'package:dokumentation_lh/screens/loginscreen/loginscreen.dart';
+import 'package:dokumentation_lh/screens/questionscreen/questionscreen.dart';
+import 'package:dokumentation_lh/screens/resultscreen/resultscreen.dart';
+import 'package:dokumentation_lh/screens/startscreen/startscreen.dart';
 import 'package:dokumentation_lh/theme/style.dart';
 import 'package:dokumentation_lh/utils/user_simple_preferences.dart';
 import 'package:flutter/material.dart';
-import 'screens/questionscreen/questionscreen.dart';
-import 'screens/loginscreen/loginscreen.dart';
-import 'screens/resultscreen/resultscreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => LoginScreen(),
         '/question': (context) => QuestionScreen(),
+        '/start': (context) => StartScreen(),
         '/result': (context) => ResultScreen(),
         '/config': (context) => ConfigScreen()
       },
