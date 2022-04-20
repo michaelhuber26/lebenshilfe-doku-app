@@ -9,6 +9,10 @@ class TtsApi {
     await flutterTts.speak(text);
   }
 
+  void stop() {
+    flutterTts.stop();
+  }
+
   /// initialises TTS (text to speech)
   /// android & iOS
   void initTts(TtsSettings ttsSettings) async {

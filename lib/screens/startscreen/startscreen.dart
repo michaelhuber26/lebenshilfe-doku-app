@@ -13,13 +13,13 @@ class StartScreen extends StatefulWidget {
 
 class _StartScreenState extends State<StartScreen> {
   TtsApi tts = TtsApi();
-  TtsSettings ttsSettings = UserSimplePreferences.getTtsSettings();
 
   @override
   void initState() {
-    ttsSettings = UserSimplePreferences.getTtsSettings();
-    tts.initTts(ttsSettings);
     super.initState();
+    TtsSettings ttsSettings = UserSimplePreferences.getTtsSettings();
+    ttsSettings.language = 'de-DE';
+    tts.initTts(ttsSettings);
   }
 
   String text = """Hallo und Willkommen bei der Dokumentation.
@@ -28,7 +28,7 @@ Die Dokumentation ist ein Hilfsmittel.
 
 Es beschreibt die Unterstützung für eine Person.
 Es unterstützt Wünsche zu beschreiben.
-Es unterstützt bei der Beschreibung „Was kann die Person machen“.
+Es unterstützt bei der Beschreibung: „Was kann die Person machen“.
 Es unterstützt bei der Teilhabe. Teilhabe ist, was man gemeinsam mit anderen macht.
 Damit kann man besser erkennen, welche Sachen wichtig sind.
 
@@ -43,120 +43,154 @@ Wenn du möchtest, kannst du starten.
 
   @override
   Widget build(BuildContext context) {
+    TtsSettings ttsSettings = UserSimplePreferences.getTtsSettings();
+    ttsSettings.language = 'de-DE';
+    tts.initTts(ttsSettings);
     tts.speak(text);
+    return WillPopScope(
+      onWillPop: () {
+        tts.stop();
+        //trigger leaving and use own data
+        Navigator.pop(context, false);
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20, left: 50),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Image.asset(
-                      "assets/images_startscreen/Bild1.png",
-                      height: MediaQuery.of(context).size.height / 7,
-                    ),
-                    SizedBox(width: 100),
-                    startScreenText1,
-                  ],
-                ),
-                Row(
-                  children: [
-                    Image.asset(
-                      "assets/images_startscreen/Bild2.png",
-                      height: MediaQuery.of(context).size.height / 7,
-                    ),
-                    SizedBox(width: 50),
-                    startScreenText2,
-                  ],
-                ),
-                Row(
-                  children: [
-                    Image.asset(
-                      "assets/images_startscreen/Bild3.png",
-                      height: MediaQuery.of(context).size.height / 7,
-                    ),
-                    SizedBox(width: 51),
-                    startScreenText3,
-                  ],
-                ),
-                Row(
-                  children: [
-                    Image.asset(
-                      "assets/images_startscreen/Bild4.png",
-                      height: MediaQuery.of(context).size.height / 7,
-                    ),
-                    SizedBox(width: 45),
-                    startScreenText4,
-                  ],
-                ),
-                Row(
-                  children: [
-                    Image.asset(
-                      "assets/images_startscreen/Bild5.png",
-                      height: MediaQuery.of(context).size.height / 8,
-                    ),
-                    SizedBox(width: 215),
-                    startScreenText5,
-                  ],
-                ),
-                Row(
-                  children: [
-                    Image.asset(
-                      "assets/images_startscreen/Bild6.png",
-                      height: MediaQuery.of(context).size.height / 7,
-                    ),
-                    SizedBox(width: 180),
-                    startScreenText6,
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: Colors.orange),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/question');
-                      },
-                      child: Text(
-                        'STARTEN',
-                        style: TextStyle(fontSize: 45),
+        //we need to return a future
+        return Future.value(false);
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20, left: 50),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Image.asset(
+                        "assets/images_startscreen/Bild1.png",
+                        height: MediaQuery.of(context).size.height / 7,
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5,
-                )
-              ],
+                      SizedBox(width: 100),
+                      startScreenText1,
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Image.asset(
+                        "assets/images_startscreen/Bild2.png",
+                        height: MediaQuery.of(context).size.height / 7,
+                      ),
+                      SizedBox(width: 50),
+                      startScreenText2,
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Image.asset(
+                        "assets/images_startscreen/Bild3.png",
+                        height: MediaQuery.of(context).size.height / 7,
+                      ),
+                      SizedBox(width: 51),
+                      startScreenText3,
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Image.asset(
+                        "assets/images_startscreen/Bild4.png",
+                        height: MediaQuery.of(context).size.height / 7,
+                      ),
+                      SizedBox(width: 45),
+                      startScreenText4,
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Image.asset(
+                        "assets/images_startscreen/Bild5.png",
+                        height: MediaQuery.of(context).size.height / 8,
+                      ),
+                      SizedBox(width: 215),
+                      startScreenText5,
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Image.asset(
+                        "assets/images_startscreen/Bild6.png",
+                        height: MediaQuery.of(context).size.height / 7,
+                      ),
+                      SizedBox(width: 180),
+                      startScreenText6,
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(primary: Colors.orange),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/question');
+                        },
+                        child: Text(
+                          'STARTEN',
+                          style: TextStyle(fontSize: 45),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  )
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5),
-            child: Container(
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: Container(
-                  height: 75,
-                  width: 75,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.settings_outlined,
-                      size: 50,
-                      color: Colors.green,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(5, 15, 5, 5),
+              child: Container(
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    height: 75,
+                    width: 75,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.volume_up_rounded,
+                        size: 50,
+                        color: Colors.green,
+                      ),
+                      onPressed: () {
+                        tts.speak(text);
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/config');
-                    },
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(5),
+              child: Container(
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Container(
+                    height: 75,
+                    width: 75,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.settings_outlined,
+                        size: 50,
+                        color: Colors.green,
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/config');
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

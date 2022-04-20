@@ -32,13 +32,13 @@ class _QuestionScreenState extends State<QuestionScreen> {
     super.initState();
     ttsSettings = UserSimplePreferences.getTtsSettings();
     tts.initTts(ttsSettings);
+    tts.speak(allQuestions[_counter].subcategory);
   }
 
   @override
   Widget build(BuildContext context) {
-    tts.speak(allQuestions[_counter].subcategory);
     print('BUILD Function called');
-    if (_counter <= allQuestions.length - 1) {
+    if (_counter <= allQuestions.length - 1 && _counter != -1) {
       _title = allQuestions[_counter].category;
       _subtitle = allQuestions[_counter].subcategory;
     }
@@ -79,6 +79,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
     /// triggers if the back button was pressed
     void _pressedBack() {
+      // read text of page
+      if (_counter >= 0) tts.speak(allQuestions[_counter - 1].subcategory);
+
       if (_counter <= 0) {
         Navigator.pop(context);
       }
@@ -142,6 +145,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
     /// triggers if the forward button was pressed
     void _pressedForward() {
+      if (_counter < allQuestions.length - 1)
+        tts.speak(allQuestions[_counter + 1].subcategory);
+
       // if all questions are awnsered go to Result Screen
       if (_allQuestionAnswerd()) {
         Navigator.pushNamed(
@@ -156,22 +162,23 @@ class _QuestionScreenState extends State<QuestionScreen> {
           allQuestions[_counter].result = _isSelected.indexOf(true) + 1;
 
           _setCounter();
+          if (_counter >= 0) {
+            // to print results in array
+            List<int> resultArr = [];
+            allQuestions.forEach((element) {
+              resultArr.add(element.result);
+            });
+            print(resultArr);
 
-          // to print results in array
-          List<int> resultArr = [];
-          allQuestions.forEach((element) {
-            resultArr.add(element.result);
-          });
-          print(resultArr);
+            if (_counter < allQuestions.length)
+              isFavorite = allQuestions[_counter].isLiked;
 
-          if (_counter < allQuestions.length)
-            isFavorite = allQuestions[_counter].isLiked;
-
-          // select no piktogram for the new page
-          _isSelected = [false, false, false, false];
-          // to select the piktogram which was in front selected
-          if (allQuestions[_counter].result != 0) {
-            _isSelected[allQuestions[_counter].result - 1] = true;
+            // select no piktogram for the new page
+            _isSelected = [false, false, false, false];
+            // to select the piktogram which was in front selected
+            if (allQuestions[_counter].result != 0) {
+              _isSelected[allQuestions[_counter].result - 1] = true;
+            }
           }
         });
       }
