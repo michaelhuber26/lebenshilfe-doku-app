@@ -43,7 +43,7 @@ const List all_categories = [
       {
         "sub_id": 2,
         "subcategory":
-            "Fortbewegung mit Bus, Bahn, etc. wie jemand an einem Ort kommt"
+            "Fortbewegung mit Bus, Bahn wie jemand an einem Ort kommt"
       },
       {"sub_id": 3, "subcategory": "In einem Raum zurechtfinden"},
       {"sub_id": 4, "subcategory": "Sich mit der Uhr zurechtfinden"}
@@ -74,11 +74,14 @@ const List all_categories = [
       {
         "sub_id": 1,
         "subcategory":
-            "Fremde Menschen treffen - wie man Menschen begegnet (Worte, Begrüßung, etc.)"
+            "Fremde Menschen treffen - wie man Menschen begegnet (Worte, Begrüßung)"
       },
       {"sub_id": 2, "subcategory": "Freunde haben (zusammensein mit Freunden)"},
       {"sub_id": 3, "subcategory": "Zusammensein mit Eltern"},
-      {"sub_id": 4, "subcategory": "Zusammensein mit einer/einem Partner*in"}
+      {
+        "sub_id": 4,
+        "subcategory": "Zusammensein mit einer Partnerin oder einem Partner"
+      }
     ]
   },
   {

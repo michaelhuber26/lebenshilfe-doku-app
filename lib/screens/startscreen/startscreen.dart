@@ -156,7 +156,7 @@ Wenn du möchtest, kannst du starten.
                     child: IconButton(
                       icon: Icon(
                         Icons.volume_up_rounded,
-                        size: 50,
+                        size: 65,
                         color: Colors.green,
                       ),
                       onPressed: () {
