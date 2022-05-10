@@ -13,13 +13,16 @@ class StartScreen extends StatefulWidget {
 
 class _StartScreenState extends State<StartScreen> {
   TtsApi tts = TtsApi();
+  TtsSettings ttsSettings = UserSimplePreferences.getTtsSettings();
 
   @override
   void initState() {
     super.initState();
-    TtsSettings ttsSettings = UserSimplePreferences.getTtsSettings();
-    ttsSettings.language = 'de-DE';
+    ttsSettings = UserSimplePreferences.getTtsSettings();
     tts.initTts(ttsSettings);
+    tts.stop();
+    tts.speak(text);
+    print("STARTSCREEN INIT STATE");
   }
 
   String text = """Hallo und Willkommen bei der Dokumentation.
@@ -43,10 +46,6 @@ Wenn du möchtest, kannst du starten.
 
   @override
   Widget build(BuildContext context) {
-    TtsSettings ttsSettings = UserSimplePreferences.getTtsSettings();
-    ttsSettings.language = 'de-DE';
-    tts.initTts(ttsSettings);
-    tts.speak(text);
     return WillPopScope(
       onWillPop: () {
         tts.stop();
@@ -130,6 +129,9 @@ Wenn du möchtest, kannst du starten.
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(primary: Colors.orange),
                         onPressed: () {
+                          setState(() {
+                            tts.stop();
+                          });
                           Navigator.pushNamed(context, '/question');
                         },
                         child: Text(
@@ -160,7 +162,10 @@ Wenn du möchtest, kannst du starten.
                         color: Colors.green,
                       ),
                       onPressed: () {
-                        tts.speak(text);
+                        setState(() {
+                          tts.stop();
+                          tts.speak(text);
+                        });
                       },
                     ),
                   ),
@@ -182,6 +187,9 @@ Wenn du möchtest, kannst du starten.
                         color: Colors.green,
                       ),
                       onPressed: () {
+                        setState(() {
+                          tts.stop();
+                        });
                         Navigator.pushNamed(context, '/config');
                       },
                     ),
@@ -193,5 +201,12 @@ Wenn du möchtest, kannst du starten.
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    tts.stop();
+    print("dispose STARTSCREEN");
   }
 }

@@ -30,6 +30,6 @@ class TtsSettings {
   /// with layout: 'Language: ... , isActivated: ... '
   @override
   String toString() {
-    return '{Language: ${this.language}, isActivated: ${this.isActivated}}';
+    return '{Language: ${this.language}, isActivated: ${this.isActivated}, speechRate: ${this.speechRate}, volume: ${this.volume}, pitch: ${this.pitch}}';
   }
 }

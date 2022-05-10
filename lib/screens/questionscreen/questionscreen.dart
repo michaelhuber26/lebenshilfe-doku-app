@@ -28,23 +28,35 @@ class _QuestionScreenState extends State<QuestionScreen> {
   late List<Question> allQuestions = getAllQuestions();
 
   @override
+  void dispose() {
+    super.dispose();
+    tts.stop();
+  }
+
+  @override
   void initState() {
     super.initState();
     ttsSettings = UserSimplePreferences.getTtsSettings();
     tts.initTts(ttsSettings);
+    // tts.stop();
     tts.speak(allQuestions[_counter].subcategory);
+    print("QUestionScreen INIT STATE");
   }
 
   @override
   Widget build(BuildContext context) {
-    print('BUILD Function called');
+    print('QuestionScreen BUILD Function called');
+
     if (_counter <= allQuestions.length - 1 && _counter != -1) {
       _title = allQuestions[_counter].category;
       _subtitle = allQuestions[_counter].subcategory;
     }
 
     void _pressedQuestion() {
-      tts.speak(allQuestions[_counter].subcategory);
+      setState(() {
+        tts.stop();
+        tts.speak(allQuestions[_counter].subcategory);
+      });
     }
 
     /// Triggers when an answer button is pressed
@@ -61,10 +73,22 @@ class _QuestionScreenState extends State<QuestionScreen> {
             _firstClick = [true, true, true, true];
             _isSelected = [false, false, false, false];
             _firstClick[index] = false;
-            if (index == 0) tts.speak("Schaffe ich alleine");
-            if (index == 1) tts.speak("Schaffe ich mit Anleitung");
-            if (index == 2) tts.speak("Schaffe ich mit Unterstützung");
-            if (index == 3) tts.speak("Schaffe ich nicht");
+            if (index == 0) {
+              tts.stop();
+              tts.speak("Schaffe ich alleine");
+            }
+            if (index == 1) {
+              tts.stop();
+              tts.speak("Schaffe ich mit Anleitung");
+            }
+            if (index == 2) {
+              tts.stop();
+              tts.speak("Schaffe ich mit Unterstützung");
+            }
+            if (index == 3) {
+              tts.stop();
+              tts.speak("Schaffe ich nicht");
+            }
           } else if (_firstClick[index] == false && btnIndex == index) {
             _isSelected[btnIndex] = true;
             _firstClick[btnIndex] = true;
@@ -105,10 +129,16 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
       if (isFavorite) {
         allQuestions[_counter].isLiked = true;
-        tts.speak('ist mir wichtig');
+        setState(() {
+          tts.stop();
+          tts.speak('ist mir wichtig');
+        });
       } else {
         allQuestions[_counter].isLiked = false;
-        tts.speak('ist mir nicht wichtig');
+        setState(() {
+          tts.stop();
+          tts.speak('ist mir nicht wichtig');
+        });
       }
 
       setState(() {});
@@ -145,9 +175,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
     /// triggers if the forward button was pressed
     void _pressedForward() {
-      if (_counter < allQuestions.length - 1)
-        tts.speak(allQuestions[_counter + 1].subcategory);
-
+      if (_counter < allQuestions.length - 1) {
+        setState(() {
+          tts.stop();
+          tts.speak(allQuestions[_counter + 1].subcategory);
+        });
+      }
       // if all questions are awnsered go to Result Screen
       if (_allQuestionAnswerd()) {
         Navigator.pushNamed(

@@ -1,6 +1,9 @@
 import 'package:dokumentation_lh/services/pdf_api.dart';
 import 'package:dokumentation_lh/models/questions.dart';
+import 'package:dokumentation_lh/services/pdf_api_web.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:io' show Platform;
 
 class Body extends StatelessWidget {
   Body({
@@ -9,6 +12,10 @@ class Body extends StatelessWidget {
   }) : super(key: key);
 
   final List<Question> args;
+
+  bool get isIOS => !kIsWeb && Platform.isIOS;
+  bool get isAndroid => !kIsWeb && Platform.isAndroid;
+  bool get isWeb => kIsWeb;
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +43,14 @@ class Body extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  final pdfFile = await PdfApi.generate("ergebnis.pdf", args);
-                  PdfApi.openFile(pdfFile);
+                  if (isAndroid || isIOS) {
+                    final pdfFile = await PdfApi.generate("ergebnis.pdf", args);
+                    PdfApi.openFile(pdfFile);
+                  } else if (isWeb) {
+                    final pdfFile = await PdfApiWeb.generate(args);
+                    PdfApiWeb.openWindow(pdfFile);
+                    // PdfApiWeb.download(pdfFile);
+                  }
                 },
                 child: Text(
                   'PDF öffnen',
