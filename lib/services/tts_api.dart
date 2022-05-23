@@ -40,34 +40,34 @@ class TtsApi {
     }
 
     flutterTts.setStartHandler(() {
-      print("Playing");
+      print("TTS Playing");
       ttsState = TtsState.playing;
     });
 
     flutterTts.setCompletionHandler(() {
-      print("Complete");
+      print("TTS Complete");
       ttsState = TtsState.stopped;
     });
 
     flutterTts.setCancelHandler(() {
-      print("Cancel");
+      print("TTS Cancel");
       ttsState = TtsState.stopped;
     });
 
     if (isWeb || isIOS) {
       flutterTts.setPauseHandler(() {
-        print("Paused");
+        print("TTS Paused");
         ttsState = TtsState.paused;
       });
 
       flutterTts.setContinueHandler(() {
-        print("Continued");
+        print("TTS Continued");
         ttsState = TtsState.continued;
       });
     }
 
     flutterTts.setErrorHandler((msg) {
-      print("error: $msg");
+      print("TTS error: $msg");
       ttsState = TtsState.stopped;
     });
 

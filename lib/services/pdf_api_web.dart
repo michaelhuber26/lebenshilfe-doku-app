@@ -12,8 +12,11 @@ class PdfApiWeb {
     double _imgsize = 45;
     //List<bool> isLiked = args.isLiked;
     List qImages = await _getQImageList();
+    print("load qImages...");
     List favImages = await _getFavImageList(args);
+    print("load favImages...");
     List selectedImages = await _getSelectedImageList(args);
+    print("load selectedImages...");
 
     pdf.addPage(pw.MultiPage(
       pageTheme: pw.PageTheme(pageFormat: PdfPageFormat.a4),
@@ -46,14 +49,17 @@ class PdfApiWeb {
               ]),
       ],
     ));
-
+    print("saving pdf");
     final bytes = await pdf.save();
+    print("creating pdf blob");
     final blob = html.Blob([bytes], 'application/pdf');
 
+    print("PDF created!!");
     return html.Url.createObjectUrlFromBlob(blob);
   }
 
   static download(url) async {
+    print("downloading PDF...");
     final anchor = html.document.createElement('a') as html.AnchorElement
       ..href = url
       ..style.display = 'none'
@@ -65,6 +71,7 @@ class PdfApiWeb {
   }
 
   static openWindow(url) async {
+    print("opening PDF...");
     html.window.open(url, "_blank");
     html.Url.revokeObjectUrl(url);
   }

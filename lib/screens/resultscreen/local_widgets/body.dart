@@ -47,7 +47,9 @@ class Body extends StatelessWidget {
                     final pdfFile = await PdfApi.generate("ergebnis.pdf", args);
                     PdfApi.openFile(pdfFile);
                   } else if (isWeb) {
+                    print("creating PDF...");
                     final pdfFile = await PdfApiWeb.generate(args);
+
                     PdfApiWeb.openWindow(pdfFile);
                     // PdfApiWeb.download(pdfFile);
                   }
