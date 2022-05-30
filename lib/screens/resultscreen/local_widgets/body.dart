@@ -17,6 +17,8 @@ class Body extends StatelessWidget {
   bool get isAndroid => !kIsWeb && Platform.isAndroid;
   bool get isWeb => kIsWeb;
 
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -48,9 +50,12 @@ class Body extends StatelessWidget {
                     PdfApi.openFile(pdfFile);
                   } else if (isWeb) {
                     print("creating PDF...");
+
+                    isLoading = true;
                     final pdfFile = await PdfApiWeb.generate(args);
 
                     PdfApiWeb.openWindow(pdfFile);
+                    isLoading = false;
                     // PdfApiWeb.download(pdfFile);
                   }
                 },
@@ -59,6 +64,7 @@ class Body extends StatelessWidget {
                   style: TextStyle(fontSize: 25),
                 ),
               ),
+              if (isLoading) CircularProgressIndicator()
             ],
           )
         ],

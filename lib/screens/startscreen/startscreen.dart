@@ -43,6 +43,7 @@ z.B. Hilfen für den Austausch mit anderen Menschen.
 Der Stern beschreibt, ob es besonders wichtig ist.
 Wenn du möchtest, kannst du starten.
 """;
+  bool isSpeaking = true;
 
   @override
   Widget build(BuildContext context) {
@@ -163,8 +164,14 @@ Wenn du möchtest, kannst du starten.
                       ),
                       onPressed: () {
                         setState(() {
-                          tts.stop();
-                          tts.speak(text);
+                          print("isSpeaking: $isSpeaking");
+                          if (isSpeaking) {
+                            isSpeaking = false;
+                            tts.stop();
+                          } else {
+                            isSpeaking = true;
+                            tts.speak(text);
+                          }
                         });
                       },
                     ),
@@ -188,7 +195,10 @@ Wenn du möchtest, kannst du starten.
                       ),
                       onPressed: () {
                         setState(() {
-                          tts.stop();
+                          if (isSpeaking) {
+                            isSpeaking = false;
+                            tts.stop();
+                          }
                         });
                         Navigator.pushNamed(context, '/config');
                       },

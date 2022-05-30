@@ -21,6 +21,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   // bool toggle = false;
   bool isFavorite = false;
   bool _firstTimeAns = true;
+  bool isSpeaking = true;
 
   List<bool> _firstClick = [true, true, true, true];
   List<bool> _isSelected = [false, false, false, false];
@@ -54,8 +55,13 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
     void _pressedQuestion() {
       setState(() {
-        tts.stop();
-        tts.speak(allQuestions[_counter].subcategory);
+        if (isSpeaking) {
+          isSpeaking = false;
+          tts.stop();
+        } else {
+          isSpeaking = true;
+          tts.speak(allQuestions[_counter].subcategory);
+        }
       });
     }
 
@@ -98,28 +104,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
           // }
         }
         print(_firstClick);
-      });
-    }
-
-    /// triggers if the back button was pressed
-    void _pressedBack() {
-      // read text of page
-      if (_counter >= 0) tts.speak(allQuestions[_counter - 1].subcategory);
-
-      if (_counter <= 0) {
-        Navigator.pop(context);
-      }
-      setState(() {
-        if (_counter > 0) _counter -= 1;
-
-        // set favorite icon
-        isFavorite = allQuestions[_counter].isLiked;
-
-        _isSelected = [false, false, false, false];
-        // to select the piktogram which was prior selected
-        if (allQuestions[_counter].result != 0) {
-          _isSelected[allQuestions[_counter].result - 1] = true;
-        }
       });
     }
 
@@ -171,6 +155,31 @@ class _QuestionScreenState extends State<QuestionScreen> {
         _counter += 1;
       else
         _counter = _findNotAnswerd();
+    }
+
+    /// triggers if the back button was pressed
+    void _pressedBack() {
+      setState(() {
+        // read text of page
+        tts.stop();
+        if (_counter >= 0) {
+          tts.speak(allQuestions[_counter - 1].subcategory);
+        }
+
+        if (_counter <= 0) {
+          Navigator.pop(context);
+        }
+        if (_counter > 0) _counter -= 1;
+
+        // set favorite icon
+        isFavorite = allQuestions[_counter].isLiked;
+
+        _isSelected = [false, false, false, false];
+        // to select the piktogram which was prior selected
+        if (allQuestions[_counter].result != 0) {
+          _isSelected[allQuestions[_counter].result - 1] = true;
+        }
+      });
     }
 
     /// triggers if the forward button was pressed
