@@ -1,3 +1,4 @@
+// current categories for the Doku
 const List all_categories = [
   {
     "id": 1,

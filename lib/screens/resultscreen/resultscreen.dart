@@ -9,6 +9,7 @@ import 'package:dokumentation_lh/services/pdf_api.dart';
 import 'package:dokumentation_lh/models/questions.dart';
 import 'package:dokumentation_lh/services/pdf_api_web.dart';
 
+// screen with picked answers and button for pdf creation
 class ResultScreen extends StatefulWidget {
   @override
   _ResultScreenState createState() => _ResultScreenState();

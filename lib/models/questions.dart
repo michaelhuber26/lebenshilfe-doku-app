@@ -1,3 +1,5 @@
+// Question Object
+// stores answered questions
 class Question {
   String category;
   String subcategory;

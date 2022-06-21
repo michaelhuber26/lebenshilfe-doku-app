@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// widget used in startscreen to display the text
 var startScreenText1 = RichText(
   text: TextSpan(
     // Note: Styles for TextSpans must be explicitly defined.

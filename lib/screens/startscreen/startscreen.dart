@@ -5,6 +5,7 @@ import 'package:dokumentation_lh/utils/user_simple_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+// introduction screen for the Agogische Dokumentation
 class StartScreen extends StatefulWidget {
   const StartScreen({Key? key}) : super(key: key);
   @override

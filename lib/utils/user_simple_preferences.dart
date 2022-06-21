@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dokumentation_lh/models/tts_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// uses shared_preferences to save settings when app is closed(not running)
 class UserSimplePreferences {
   static late SharedPreferences _preferences;
 

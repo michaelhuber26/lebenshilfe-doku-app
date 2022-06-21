@@ -5,6 +5,8 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:universal_html/html.dart' as html;
 
+// PdfApi generates the pdf file (+layout) for Web App
+// pdf creation very slow (~ 4min) --> TO FIX!!
 class PdfApiWeb {
   static Future generate(args) async {
     final pdf = pw.Document();

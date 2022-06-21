@@ -1,3 +1,4 @@
+// NOT USED ANYMORE
 const List all_categories = [
   {
     "id": 1,

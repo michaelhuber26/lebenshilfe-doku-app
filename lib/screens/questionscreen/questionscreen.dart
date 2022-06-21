@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../models/questions.dart';
 import '../../services/tts_api.dart';
 
+// screen for the questions(categories )
 class QuestionScreen extends StatefulWidget {
   @override
   _QuestionScreenState createState() => _QuestionScreenState();

@@ -6,6 +6,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 
 enum TtsState { playing, stopped, paused, continued }
 
+// Text to speech API
 class TtsApi {
   FlutterTts flutterTts = FlutterTts();
   String? language;

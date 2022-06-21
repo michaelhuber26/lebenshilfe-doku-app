@@ -1,6 +1,7 @@
 import 'package:dokumentation_lh/models/tts_settings.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
+// NOT USED ANYMORE
 class TtsApi {
   FlutterTts flutterTts = FlutterTts();
 

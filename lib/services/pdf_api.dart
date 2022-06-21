@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 
+// PdfApi generates the pdf file (+layout) for Android and iOS
 class PdfApi {
   static Future<File> generate(name, args) async {
     final pdf = Document();
